@@ -4,8 +4,11 @@ class memoria_t{
 		T* datos_;
 		unsigned int tam_;
 	public:
-		memoria_t(){}
+		memoria_t(int);
 		unsigned int obtTam(void);
 		T& operator [](unsigned int);
-		~memoria_t();
+		~memoria_t(){
+			if(datos_)
+				delete [] datos_;
+		}
 };

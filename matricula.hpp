@@ -1,6 +1,7 @@
 #include <string>
 #include <cstdlib>
-
+#include <cmath>
+#include <ctime>
 
 class matricula_t{
 	private:
@@ -8,7 +9,7 @@ class matricula_t{
 		std::string matr_cadena_;
 
 	public:
-		matricula_t(){}
+		matricula_t();
 		matricula_t(std::string);
 		~matricula_t(){}
 
