@@ -2,6 +2,7 @@
 #define _MEMORIA_H_
 
 #include <iostream>
+#include <iomanip>
 #include "matricula.hpp"
 
 template<class T>
