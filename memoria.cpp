@@ -1,25 +1,7 @@
 #include "memoria.hpp"
 
-/*
-template<class T>
-memoria_t<T>::~memoria_t(){
-	delete [] datos_;
-}
-*/
-
-template<class T>
-memoria_t<T>::memoria_t(int tam)
-tam_(tam)
-{
-	datos_ = new T[tam_];0
-}
-
-template<class T>
-unsigned int memoria_t<T>::obtTam(void){
-	return tam_;
-}
-
-template<class T>
-T& memoria_t<T>::operator[](unsigned int i){
-	return datos_[i];
+template<>
+std::ostream& memoria_t<matricula_t>::write(std::ostream& os){
+	for(int i=0; i<tam_; i++)
+		os << static_cast<std::string>(datos_[i]) << std::endl;
 }
