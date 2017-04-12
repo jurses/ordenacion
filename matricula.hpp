@@ -20,7 +20,6 @@ class matricula_t{
 		std::string obtCadena(void){ return matr_cadena_; }
 		operator unsigned long();
 		operator std::string();
-		//operator =(const matricula_t&);
 };
 
 #endif	// _MATRICULA_H_
