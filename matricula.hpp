@@ -15,7 +15,7 @@ class matricula_t{
 	public:
 		matricula_t();
 		matricula_t(std::string);
-		~matricula_t(){ std::cout << "Yo, matrícula, muero." << std::endl; }
+		~matricula_t(){}
 		void darMatricula(std::string);
 		std::string obtCadena(void){ return matr_cadena_; }
 		operator unsigned long();

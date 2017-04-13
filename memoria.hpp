@@ -13,7 +13,6 @@ class memoria_t{
 		void borrar(void);
 	public:
 		memoria_t(int);
-		//memoria_t(const memoria_t&);
 		unsigned int obtTam(void);
 
 		std::ostream& write(std::ostream& os){
@@ -29,7 +28,6 @@ class memoria_t{
 template<class T>
 memoria_t<T>::~memoria_t(){
 	borrar();
-	std::cout << "Yo, memoria, muero." << std::endl;
 }
 
 template<class T>

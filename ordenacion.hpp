@@ -4,11 +4,14 @@ template<class T>
 class ordenacion_t{
     private:
         T* memoria_;
+        void mezcla(int, int, int, int);
+        void msort(int, int, int);
     public:
         ordenacion_t(T&);
-        ~ordenacion_t(){ std::cout << "san seacabó" << std::endl; }
+        ~ordenacion_t(){}
         void seleccion(void);
         void sacudida(void);
+        void msort(void);                   // el gatillo
 };
 
 template<class T>
@@ -18,38 +21,66 @@ ordenacion_t<T>::ordenacion_t(T& memoria):
 
 template<class T>
 void ordenacion_t<T>::seleccion(void){
-    int i, j, k;
-    
-    for(i=0; i<memoria_->obtTam(); i++){
-        k = i;
-        for(j=i; j<memoria_->obtTam(); j++)
-            if(memoria_[k] > memoria_[j])
-                k = j;
-
-        memoria_->intercambiar(k, i);
+    int min;
+    for(int i = 0; i < memoria_->obtTam(); i++){
+        min = i;
+        for(int j = i+1; j < memoria_->obtTam(); j++)
+            if((*memoria_)[j] < (*memoria_)[min])
+                min = j;
+            
+            memoria_->intercambiar(i, min);
     }
 }
 
 template<class T>
 void ordenacion_t<T>::sacudida(void){
-    bool testigo = true;
-    int i = 0, si = 0;
-    int j = memoria_->obtTam(), sj = memoria_->obtTam();
+    int ini = 1;
+    int fin = memoria_->obtTam() - 1;
+    int cam = memoria_->obtTam();
 
-    while(testigo){
-        testigo = false;
-        for(i = si;i<j-1; i++)
-            if((*memoria_)[i] < (*memoria_)[i+1]){
-                testigo = true;
-                memoria_->intercambiar(i, i+1);
-                si++;
-            }
-        
-        for(j = sj; j>i+1; j--)
-            if((*memoria_)[j] > (*memoria_)[j-1]){
-                testigo = true;
+    while(ini < fin){
+        for(int j = fin; j>=ini; j--)
+            if((*memoria_)[j] < (*memoria_)[j-1]){
                 memoria_->intercambiar(j, j-1);
-                sj--;
+                cam = j;
             }
+
+        ini = cam + 1;
+        for(int j = ini; j<= fin; j++){
+            if((*memoria_)[j]<(*memoria_)[j-1]){
+                memoria_->intercambiar(j, j-1);
+                cam = j;
+            }
+        }
+        fin = cam - 1;
+    }
+}
+
+template<class T>
+void ordenacion_t<T>::msort(void){
+    msort(0, 0, memoria_->obtTam());
+}
+
+template<class T>
+void ordenacion_t<T>::msort(int sec, int ini, int fin){
+    int cen;
+    if (ini < fin){
+        cen = (ini + fin)/2;
+        msort(sec, ini, cen);
+        msort(sec, cen+1, fin);
+        mezcla(sec, ini, cen, fin);
+    }
+}
+
+template<class T>
+void ordenacion_t<T>::mezcla(int sec, int ini, int cen, int fin){
+    int i = ini;
+    int j = cen + 1;
+    int k = ini;
+    T* aux;
+    while((i<=cen)&&(j<=fin)){
+        if((*memoria_[i]) < (*memoria_[j])){
+
+        }
     }
 }

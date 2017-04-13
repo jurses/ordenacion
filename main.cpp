@@ -13,7 +13,7 @@ int main(void){
 	ordenacion_t<memMat> b1(a1);
 	a1.write(std::cout);
 
-	b1.sacudida();
+	b1.seleccion();
 	std::cout << std::endl;
 	a1.write(std::cout);
 }
