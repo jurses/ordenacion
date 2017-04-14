@@ -66,9 +66,8 @@ void ordenacion_t<T>::msort(void){
 
 template<class T>
 void ordenacion_t<T>::msort(T* sec, int ini, int fin){
-    int cen;
     if (ini < fin){
-        cen = (ini + fin)/2;
+        int cen = ini + (fin - ini)/2;
         msort(sec, ini, cen);
         msort(sec, cen+1, fin);
         mezcla(sec, ini, cen, fin);
@@ -77,43 +76,43 @@ void ordenacion_t<T>::msort(T* sec, int ini, int fin){
 
 template<class T>
 void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
-    int i = ini;
-    int j = cen + 1;
-    int k = ini;
-    T aux(fin);
-
-    while((i<=cen) && (j<=fin)){
-        if((*sec)[i] < (*sec)[j]){
-            aux[k] = (*sec)[i];
+    int i, j, k;
+    int n1 = cen - ini + 1;
+    int n2 =  fin - cen;
+ 
+    T L(n1); 
+    T R(n2);
+ 
+    for (i = 0; i < n1; i++)
+        L[i] = (*sec)[ini + i];
+    for (j = 0; j < n2; j++)
+        R[j] = (*sec)[cen + 1+ j];
+ 
+    i = 0;
+    j = 0;
+    k = ini;
+    while (i < n1 && j < n2){
+        if (L[i] <= R[j]){
+            (*sec)[k] = L[i];
             i++;
         }else{
-            aux[k] = (*sec)[j];
+            (*sec)[k] = R[j];
             j++;
-        }
-
-        if(i > cen)
-        while(j<=fin){
-            aux[k] = (*sec)[j];
-            j++;
-            k++;
         }
         k++;
     }
+ 
+    while (i < n1){
+        (*sec)[k] = L[i];
+        i++;
+        k++;
+    }
 
-    if(i > cen)
-        while(j <= fin){
-            aux[k] = (*sec)[j];
-            j++;
-            k++;
-        }
-    else
-        while(i <= cen){
-            aux[k] = (*sec)[i];
-            i++;
-            k++;
-        }
-        for(int k = ini; k <= fin; k++)
-            (*sec)[k] = aux[k];
+    while (j < n2){
+        (*sec)[k] = R[j];
+        j++;
+        k++;
+    }
 }
 
 template<class T>
@@ -144,4 +143,3 @@ void ordenacion_t<T>::qsort(T* sec, int ini, int fin){
     if(i < fin)
         qsort(sec, i, fin);
 }
-

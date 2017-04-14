@@ -11,7 +11,7 @@ matricula_t::matricula_t(){
 		matr_cadena_[i] = rand()%10 + '0';
 
 	for(int i=4; i<7; i++)
-		matr_cadena_[i] = rand()%25 + 'A';
+		matr_cadena_[i] = rand()%26 + MCAR;
 }
 
 matricula_t::operator unsigned long(){

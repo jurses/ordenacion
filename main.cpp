@@ -20,13 +20,14 @@ void asignacion(memInt& x){
 
 int main(void){
 	srand(time(NULL));
-	/*
+	
 	memMat a1(100);
+	memInt a2(8);
+	asignacion(a2);
 	a1.write(std::cout);
 	ordenacion_t<memMat> b1(a1);
-	b1.qsort();
+	ordenacion_t<memInt> b2(a2);
+	b1.msort();
 	std::cout << std::endl;
 	a1.write(std::cout);
-	*/
-	
 }
