@@ -22,6 +22,7 @@ class memoria_t{
 		void intercambiar(int, int);
 		T& operator [](unsigned int);
 		memoria_t<T> operator=(const memoria_t<T>&);
+		memoria_t<T>* seccionar(int, int);
 		~memoria_t();
 };
 
@@ -58,7 +59,7 @@ unsigned int memoria_t<T>::obtTam(void){
 
 template<class T>
 T& memoria_t<T>::operator[](unsigned int i){
-	return datos_[i];
+		return datos_[i];
 }
 
 template<class T>
@@ -68,5 +69,18 @@ void memoria_t<T>::intercambiar(int i, int j){
 	datos_[i] = datos_[j];
 	datos_[j] = aux;
 }
+
+template<class T>
+memoria_t<T>* memoria_t<T>::seccionar(int a, int b){
+	memoria_t<T>* classic;
+	classic = new memoria_t<T>(b-a);
+	int aux = a;
+	for(int i=0; i<b-a; i++){
+		(*classic)[i] = datos_[aux];
+		aux++;
+	}
+	return classic;
+}
+
 
 #endif // _MEMORIA_H_

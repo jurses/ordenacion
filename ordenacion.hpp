@@ -1,17 +1,20 @@
 #include <iostream>
+#include <vector>
 
 template<class T>
 class ordenacion_t{
     private:
         T* memoria_;
-        void mezcla(int, int, int, int);
-        void msort(int, int, int);
+        void mezcla(T*, int, int, int);
+        void msort(T*, int, int);
+        void qsort(T*, int, int);
     public:
         ordenacion_t(T&);
         ~ordenacion_t(){}
         void seleccion(void);
         void sacudida(void);
         void msort(void);                   // el gatillo
+        void qsort(void);
 };
 
 template<class T>
@@ -58,11 +61,11 @@ void ordenacion_t<T>::sacudida(void){
 
 template<class T>
 void ordenacion_t<T>::msort(void){
-    msort(0, 0, memoria_->obtTam());
+    msort(memoria_, 0, memoria_->obtTam());
 }
 
 template<class T>
-void ordenacion_t<T>::msort(int sec, int ini, int fin){
+void ordenacion_t<T>::msort(T* sec, int ini, int fin){
     int cen;
     if (ini < fin){
         cen = (ini + fin)/2;
@@ -73,14 +76,72 @@ void ordenacion_t<T>::msort(int sec, int ini, int fin){
 }
 
 template<class T>
-void ordenacion_t<T>::mezcla(int sec, int ini, int cen, int fin){
+void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
     int i = ini;
     int j = cen + 1;
     int k = ini;
-    T* aux;
-    while((i<=cen)&&(j<=fin)){
-        if((*memoria_[i]) < (*memoria_[j])){
+    T aux(fin);
 
+    while((i<=cen) && (j<=fin)){
+        if((*sec)[i] < (*sec)[j]){
+            aux[k] = (*sec)[i];
+            i++;
+        }else{
+            aux[k] = (*sec)[j];
+            j++;
+        }
+
+        if(i > cen)
+        while(j<=fin){
+            aux[k] = (*sec)[j];
+            j++;
+            k++;
+        }
+        k++;
+    }
+
+    if(i > cen)
+        while(j <= fin){
+            aux[k] = (*sec)[j];
+            j++;
+            k++;
+        }
+    else
+        while(i <= cen){
+            aux[k] = (*sec)[i];
+            i++;
+            k++;
+        }
+        for(int k = ini; k <= fin; k++)
+            (*sec)[k] = aux[k];
+}
+
+template<class T>
+void ordenacion_t<T>::qsort(void){
+    qsort(memoria_, 0, memoria_->obtTam()-1);
+}
+
+template<class T>
+void ordenacion_t<T>::qsort(T* sec, int ini, int fin){
+    T p(1);
+    int i = ini;
+    int f = fin;
+    p[0] = (*sec)[(i+f)/2];
+    
+    while(i<f){
+        while(((*sec)[i] < p[0]) && (f <= fin))
+            i++;
+        while(((*sec)[f] > p[0]) && (f > ini))
+            f--;
+        if(i <= f){
+            memoria_->intercambiar(i, f);
+            i++;
+            f--;
         }
     }
+    if(ini < f)
+        qsort(sec, ini, f);
+    if(i < fin)
+        qsort(sec, i, fin);
 }
+
