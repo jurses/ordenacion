@@ -10,6 +10,7 @@
 class matricula_t{
 	private:
 		int nIntentos_;
+		int nCompar_;
 		std::string matr_cadena_;
 
 	public:
@@ -19,7 +20,12 @@ class matricula_t{
 		void darMatricula(std::string);
 		std::string obtCadena(void){ return matr_cadena_; }
 		operator unsigned long();
+		void operator =(const matricula_t&);
+		void operator =(const std::string&);
+		bool operator <(matricula_t&);
+		bool operator >(matricula_t&);
 		operator std::string();
+		int mostrarCompar(void);
 };
 
 #endif	// _MATRICULA_H_

@@ -21,7 +21,6 @@ class memoria_t{
 		}
 		void intercambiar(int, int);
 		T& operator [](unsigned int);
-		memoria_t<T> operator=(const memoria_t<T>&);
 		memoria_t<T>* seccionar(int, int);
 		~memoria_t();
 };
@@ -36,14 +35,6 @@ memoria_t<T>::memoria_t(int tam):
 tam_(tam)
 {
 	datos_ = new T[tam_];
-}
-
-template<class T>
-memoria_t<T> memoria_t<T>::operator =(const memoria_t<T>& mem){
-	std::cout << "Hola" << std::endl;
-	datos_ = mem.datos_;
-	tam_ = mem.tam_;
-	return *this;
 }
 
 template<class T>

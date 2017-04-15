@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "matricula.hpp"
 #include "memoria.hpp"
 #include "ordenacion.hpp"
 
 typedef memoria_t<matricula_t> memMat;
 typedef memoria_t<int> memInt;
+typedef std::vector<matricula_t> vecMat;
 
 void asignacion(memInt& x){
 	x[0] = 44;
@@ -21,13 +23,8 @@ void asignacion(memInt& x){
 int main(void){
 	srand(time(NULL));
 	
-	memMat a1(100);
-	memInt a2(8);
-	asignacion(a2);
-	a1.write(std::cout);
-	ordenacion_t<memMat> b1(a1);
-	ordenacion_t<memInt> b2(a2);
-	b1.msort();
-	std::cout << std::endl;
-	a1.write(std::cout);
+	memMat A(40);
+	ordenacion_t<memMat> ord(A);
+	ord.ssort(0.34);
+	A.write(std::cout);
 }
