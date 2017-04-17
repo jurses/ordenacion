@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <vector>
 
 static int testigo = 0;
@@ -10,7 +11,7 @@ class ordenacion_t{
 		void mezcla(T*, int, int, int);
 		void msort(T*, int, int);
 		void qsort(T*, int, int);
-		void deltasort(int, T*, int);
+		void deltasort(int);
 		bool traza_;
 	public:
 		ordenacion_t(T&);
@@ -74,43 +75,43 @@ void ordenacion_t<T>::sacudida(void){
 
 template<class T>
 void ordenacion_t<T>::msort(void){
-	msort(memoria_, 0, memoria_->obtTam());
+	msort(memoria_, 0, memoria_->obtTam()-1);
 }
 
 template<class T>
 void ordenacion_t<T>::msort(T* sec, int ini, int fin){
 	if (ini < fin){
 		int cen = ini + (fin - ini)/2;
-		std::cout << ini << ", " << cen << ", " << fin <<std::endl;
-		std::cout << " < " << ini << ", " << cen << std::endl;
+		//std::cout << ini << ", " << cen << ", " << fin <<std::endl;
+		//std::cout << " < " << ini << ", " << cen << std::endl;
 		msort(sec, ini, cen);
-		std::cout << " > " << cen+1 << ", " << fin << std::endl;
+		//std::cout << " > " << cen+1 << ", " << fin << std::endl;
 		msort(sec, cen+1, fin);
-		std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
+		//std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
 		mezcla(sec, ini, cen, fin);
 	}
 }
 
 template<class T>
 void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
-	int i, j, k;
 	int n1 = cen - ini + 1;
 	int n2 =  fin - cen;
- 
+	int i = 0, j = 0;
+	int k = ini;
+
 	T L(n1); 
 	T R(n2);
-	
-	for (i = 0; i < n1; i++)
-	    L[i] = (*sec)[ini + i];
 
-	for (j = 0; j < n2; j++)
-	    R[j] = (*sec)[cen + 1+ j];
- 
+	for (; i < n1; i++)
+	   	L[i] = (*sec)[ini + i];
+
+	for (; j < n2; j++)
+	    R[j] = (*sec)[cen + 1 + j];
+
 	i = 0;
 	j = 0;
-	k = ini;
 	while (i < n1 && j < n2){
-		if (L[i] <= R[j]){
+		if (L[i] < R[j]){
 			(*sec)[k] = L[i];
 			i++;
 		}else{
@@ -119,6 +120,7 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
 		}
 		k++;
 	}
+ 
  
 	while (i < n1){
 		(*sec)[k] = L[i];
@@ -164,23 +166,23 @@ void ordenacion_t<T>::qsort(T* sec, int ini, int fin){
 
 template<class T>
 void ordenacion_t<T>::ssort(float a){
-	int del;
+	int del = memoria_->obtTam();
 	while(del > 1){
-		del = del * a;
-		deltasort(del, memoria_, memoria_->obtTam() - 1);
+		del = ceil(del * a);
+		deltasort(del);
 	}
 }
 
 template<class T>
-void ordenacion_t<T>::deltasort(int d, T* sec, int n){
+void ordenacion_t<T>::deltasort(int d){
 	T aux(1);
-	for(int i = d+1; i<=n; i++){
-		aux[0] = (*sec)[i];
+	for(int i = d; i<memoria_->obtTam(); i++){
+		aux[0] = (*memoria_)[i];
 		int j = i;
-		while((j>d) && (aux[0] < (*sec)[j-d])){
-			(*sec)[j] = (*sec)[j-d];
+		while((j>=d) && (aux[0] < (*memoria_)[j-d])){
+			(*memoria_)[j] = (*memoria_)[j-d];
 			j = j - d;
 		}
-		(*sec)[j] = aux[0];
+		(*memoria_)[j] = aux[0];
 	}
 }

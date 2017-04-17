@@ -38,6 +38,7 @@ void matricula_t::darMatricula(std::string matr_cadena){
 
 void matricula_t::operator=(const matricula_t& otra_matricula){
 	nIntentos_ = otra_matricula.nIntentos_;
+	nCompar_ = otra_matricula.nCompar_;
 	matr_cadena_ = otra_matricula.matr_cadena_;
 }
 

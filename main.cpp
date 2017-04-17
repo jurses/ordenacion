@@ -23,8 +23,8 @@ void asignacion(memInt& x){
 int main(void){
 	srand(time(NULL));
 	
-	memMat A(40);
+	memMat A(10);
 	ordenacion_t<memMat> ord(A);
-	ord.ssort(0.34);
+	ord.msort();
 	A.write(std::cout);
 }
