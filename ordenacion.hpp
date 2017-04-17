@@ -11,6 +11,7 @@ class ordenacion_t{
 		void msort(T*, int, int);
 		void qsort(T*, int, int);
 		void deltasort(int, T*, int);
+		bool traza_;
 	public:
 		ordenacion_t(T&);
 		~ordenacion_t(){}
@@ -24,7 +25,9 @@ class ordenacion_t{
 template<class T>
 ordenacion_t<T>::ordenacion_t(T& memoria):
 	memoria_(&memoria)
-{}
+{
+	traza_ = false;
+}
 
 template<class T>
 void ordenacion_t<T>::seleccion(void){
@@ -32,10 +35,16 @@ void ordenacion_t<T>::seleccion(void){
 	for(int i = 0; i < memoria_->obtTam(); i++){
 		min = i;
 		for(int j = i+1; j < memoria_->obtTam(); j++)
-			if((*memoria_)[j] < (*memoria_)[min])
+			if(((*memoria_)[j] < (*memoria_)[min]) && (j != min)){
 				min = j;
-			
-			memoria_->intercambiar(i, min);
+				std::cout << "Min = [" << min << "]: " << (*memoria_)[min] << std::endl;	
+			}
+		if(i!=min){
+			std::cout << "Se produce intercambio: " << i << " por "
+			<< min << std::endl;
+			std::cout << (*memoria_)[i] << " <-> " << (*memoria_)[min] << std::endl;
+				memoria_->intercambiar(i, min);
+		}
 	}
 }
 
@@ -72,8 +81,12 @@ template<class T>
 void ordenacion_t<T>::msort(T* sec, int ini, int fin){
 	if (ini < fin){
 		int cen = ini + (fin - ini)/2;
+		std::cout << ini << ", " << cen << ", " << fin <<std::endl;
+		std::cout << " < " << ini << ", " << cen << std::endl;
 		msort(sec, ini, cen);
+		std::cout << " > " << cen+1 << ", " << fin << std::endl;
 		msort(sec, cen+1, fin);
+		std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
 		mezcla(sec, ini, cen, fin);
 	}
 }
@@ -88,10 +101,10 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
 	T R(n2);
 	
 	for (i = 0; i < n1; i++)
-		L[i] = (*sec)[ini + i];
+	    L[i] = (*sec)[ini + i];
 
 	for (j = 0; j < n2; j++)
-		R[j] = (*sec)[cen + 1+ j];
+	    R[j] = (*sec)[cen + 1+ j];
  
 	i = 0;
 	j = 0;
