@@ -9,7 +9,6 @@
 
 class matricula_t{
 	private:
-		int nIntentos_;
 		int nCompar_;
 		std::string matr_cadena_;
 
@@ -26,6 +25,7 @@ class matricula_t{
 		bool operator >(matricula_t&);
 		operator std::string();
 		int mostrarCompar(void);
+		void reset(void);
 };
 
 #endif	// _MATRICULA_H_

@@ -8,8 +8,6 @@ std::ostream& memoria_t<matricula_t>::write(std::ostream& os){
 		<< std::endl;
 }
 
-
-
 template<>
 memoria_t<int>::memoria_t(int nElementos):
 	tam_(nElementos)
@@ -36,4 +34,19 @@ void memoria_t<matricula_t>::intercambiar(int i, int j){
 	aux = datos_[i];
 	datos_[i] = datos_[j];
 	datos_[j] = aux;
+}
+
+template<>
+void memoria_t<matricula_t>::aleatorio(void){
+	for(int i=0; i<tam_*2; i++){
+		int x = rand()%tam_;
+		int y = rand()%tam_;
+		intercambiar(x, y); // no poner antes de declaracion de intercambiar
+							// no cumpliría la normativa n3376 14.7.3/6 
+	}
+
+	for(int i=0; i<tam_; i++)
+		datos_->reset();
+
+	ordenado_ = false;
 }

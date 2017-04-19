@@ -11,6 +11,7 @@ class memoria_t{
 		T* datos_;
 		unsigned int tam_;
 		void borrar(void);
+		bool ordenado_;
 	public:
 		memoria_t(int);
 		unsigned int obtTam(void);
@@ -22,6 +23,9 @@ class memoria_t{
 		void intercambiar(int, int);
 		T& operator [](unsigned int);
 		memoria_t<T>* seccionar(int, int);
+		void aleatorio(void){}
+		int menor(bool);
+		void orden(bool x){ ordenado_ = x; }
 		int vecesComparado(void);
 		~memoria_t();
 };
@@ -81,6 +85,14 @@ int memoria_t<T>::vecesComparado(void){
 		veces += datos_[i].mostrarCompar();
 		
 	return veces;
+}
+
+template<class T>
+int memoria_t<T>::menor(bool x){
+	if(x && ordenado_)
+		return datos_[0];
+	else if(!x && ordenado_)
+		return datos_[tam_-1];
 }
 
 #endif // _MEMORIA_H_

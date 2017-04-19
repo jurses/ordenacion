@@ -1,18 +1,17 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-
-static int testigo = 0;
+#include "mostrar.hpp"
 
 template<class T>
 class ordenacion_t{
 	private:
 		T* memoria_;
-		void mezcla(T*, int, int, int);
-		void msort(T*, int, int);
-		void qsort(T*, int, int);
+		void mezcla(int, int, int);
+		void msort(int, int);
+		void qsort(int, int);
 		void deltasort(int);
-		bool traza_;
+		mostrar_t mos_;
 	public:
 		ordenacion_t(){}
 		ordenacion_t(T&);
@@ -24,20 +23,19 @@ class ordenacion_t{
 		void msort(void);                   // el gatillo
 		void qsort(void);
 		void ssort(float);
+		void traza(void);
 };
 
 template<class T>
 ordenacion_t<T>::ordenacion_t(T& memoria):
 	memoria_(&memoria)
 {
-	traza_ = false;
 }
 
 template<class T>
 ordenacion_t<T>::ordenacion_t(T* memoria):
 	memoria_(memoria)
 {
-	traza_ = false;
 }
 
 template<class T>
@@ -53,15 +51,16 @@ void ordenacion_t<T>::seleccion(void){
 		for(int j = i+1; j < memoria_->obtTam(); j++)
 			if(((*memoria_)[j] < (*memoria_)[min]) && (j != min)){
 				min = j;
-				std::cout << "Min = [" << min << "]: " << (*memoria_)[min] << std::endl;	
+				mos_ << "Min = [" << min << "]: " << (unsigned long)(*memoria_)[min] << "\n";	
 			}
 		if(i!=min){
-			std::cout << "Se produce intercambio: " << i << " por "
-			<< min << std::endl;
-			std::cout << (*memoria_)[i] << " <-> " << (*memoria_)[min] << std::endl;
+			mos_ << "Se produce intercambio: elemento[" << i << "] por elemento["
+			<< min << "]\n";
+			mos_ << (unsigned long)(*memoria_)[i] << " <-> " << (unsigned long)(*memoria_)[min] << "\n";
 				memoria_->intercambiar(i, min);
 		}
 	}
+	memoria_->orden(true);
 }
 
 template<class T>
@@ -74,6 +73,8 @@ void ordenacion_t<T>::sacudida(void){
 		for(int j = fin; j>=ini; j--)
 			if((*memoria_)[j] < (*memoria_)[j-1]){
 				memoria_->intercambiar(j, j-1);
+				mos_ << "Intercambiamos el: elemento[" << j << "] por [" << j-1 << "]\n"
+				<< (unsigned long)(*memoria_)[j] << " <-> " << (unsigned long)(*memoria_)[j-1] << "\n\n";
 				cam = j;
 			}
 
@@ -81,34 +82,38 @@ void ordenacion_t<T>::sacudida(void){
 		for(int j = ini; j<= fin; j++){
 			if((*memoria_)[j]<(*memoria_)[j-1]){
 				memoria_->intercambiar(j, j-1);
+				mos_ << "Intercambiamos el: elemento[" << j << "] por [" << j-1 << "]\n"
+				<< (unsigned long)(*memoria_)[j] << " <-> " << (unsigned long)(*memoria_)[j-1] << "\n\n";
 				cam = j;
 			}
 		}
 		fin = cam - 1;
 	}
+	memoria_->orden(true);
 }
 
 template<class T>
 void ordenacion_t<T>::msort(void){
-	msort(memoria_, 0, memoria_->obtTam()-1);
+	msort(0, memoria_->obtTam()-1);
+	memoria_->orden(true);
 }
 
 template<class T>
-void ordenacion_t<T>::msort(T* sec, int ini, int fin){
+void ordenacion_t<T>::msort(int ini, int fin){
 	if (ini < fin){
 		int cen = ini + (fin - ini)/2;
-		std::cout << ini << ", " << cen << ", " << fin <<std::endl;
-		std::cout << " < " << ini << ", " << cen << std::endl;
-		msort(sec, ini, cen);
-		std::cout << " > " << cen+1 << ", " << fin << std::endl;
-		msort(sec, cen+1, fin);
-		std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
-		mezcla(sec, ini, cen, fin);
+		mos_ << ini << ", " << cen << ", " << fin << "\n";
+		mos_ << " < " << ini << ", " << cen << "\n";
+		msort(ini, cen);
+		mos_ << " > " << cen+1 << ", " << fin << "\n";
+		msort(cen+1, fin);
+		mos_ << "\nMezcla entre: " << ini  << " y " << fin << "\n";
+		mezcla(ini, cen, fin);
 	}
 }
 
 template<class T>
-void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
+void ordenacion_t<T>::mezcla(int ini, int cen, int fin){
 	int n1 = cen - ini + 1;
 	int n2 =  fin - cen;
 	int i = 0, j = 0;
@@ -118,20 +123,24 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
 	T R(n2);
 
 	for (; i < n1; i++)
-	   	L[i] = (*sec)[ini + i];
+	   	L[i] = (*memoria_)[ini + i];
 
 	for (; j < n2; j++)
-	    R[j] = (*sec)[cen + 1 + j];
+	    R[j] = (*memoria_)[cen + 1 + j];
 
 	i = 0;
 	j = 0;
+
 	while (i < n1 && j < n2){
 		if (L[i] < R[j]){
-			std::cout << "Le insertamos "
-			(*sec)[k] = L[i];
+			mos_ << "Se mete a: " << (unsigned long)L[i] << 
+			" en posRel[" << k-ini << "], posReal[" << k << "]\n";
+			(*memoria_)[k] = L[i];
 			i++;
 		}else{
-			(*sec)[k] = R[j];
+			mos_ << "Se mete a: " << (unsigned long)R[j] << 
+			" en posRel[" << k-ini << "], posReal[" << k << "]\n";
+			(*memoria_)[k] = R[j];
 			j++;
 		}
 		k++;
@@ -139,13 +148,17 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
  
  
 	while (i < n1){
-		(*sec)[k] = L[i];
+		mos_ << "Se mete a: " << (unsigned long)L[i] << 
+		" en posRel[" << k-ini << "], posReal[" << k << "]\n";
+		(*memoria_)[k] = L[i];
 		i++;
 		k++;
 	}
 
 	while (j < n2){
-		(*sec)[k] = R[j];
+		mos_ << "Se mete a: " << (unsigned long)R[j] << 
+		" en posRel[" << k-ini << "], posReal[" << k << "]\n";
+		(*memoria_)[k] = R[j];
 		j++;
 		k++;
 	}
@@ -153,31 +166,40 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
 
 template<class T>
 void ordenacion_t<T>::qsort(void){
-	qsort(memoria_, 0, memoria_->obtTam()-1);
+	qsort(0, memoria_->obtTam()-1);
+	memoria_->orden(true);
 }
 
 template<class T>
-void ordenacion_t<T>::qsort(T* sec, int ini, int fin){
+void ordenacion_t<T>::qsort(int ini, int fin){
 	T p(1);
 	int i = ini;
 	int f = fin;
-	p[0] = (*sec)[(i+f)/2];
+	p[0] = (*memoria_)[(i+f)/2];
 	
 	while(i<f){
-		while(((*sec)[i] < p[0]) && (f <= fin))
+		while(((*memoria_)[i] < p[0]) && (f <= fin)){
 			i++;
-		while(((*sec)[f] > p[0]) && (f > ini))
+			mos_ << "Pivote izq en: " << i << "\n";
+		}
+		while(((*memoria_)[f] > p[0]) && (f > ini)){
 			f--;
+			mos_ << "Pivote der en: " << f << "\n";
+		}
 		if(i <= f){
-			memoria_->intercambiar(i, f);
+			if(i<f){
+				memoria_->intercambiar(i, f);
+				mos_ << "Intercambio entre: [" << i << "] y [" << f << "]\n";
+				mos_ << (unsigned long)(*memoria_)[i] << " <-> " << (unsigned long)(*memoria_)[f] << "\n\n";
+			}
 			i++;
 			f--;
 		}
 	}
 	if(ini < f)
-		qsort(sec, ini, f);
+		qsort(ini, f);
 	if(i < fin)
-		qsort(sec, i, fin);
+		qsort(i, fin);
 }
 
 template<class T>
@@ -185,8 +207,10 @@ void ordenacion_t<T>::ssort(float a){
 	int del = memoria_->obtTam();
 	while(del > 1){
 		del = ceil(del * a);
+		mos_ << "Se divide en: " << del << "\n";
 		deltasort(del);
 	}
+	memoria_->orden(true);
 }
 
 template<class T>
@@ -196,9 +220,16 @@ void ordenacion_t<T>::deltasort(int d){
 		aux[0] = (*memoria_)[i];
 		int j = i;
 		while((j>=d) && (aux[0] < (*memoria_)[j-d])){
+			mos_ << "Hay intercambio entre: [" << j << "] y [" << j-d << "]\n"
+			<< (unsigned long)(*memoria_)[j] << " <-> " << (unsigned long)(*memoria_)[j-d] << "\n";
 			(*memoria_)[j] = (*memoria_)[j-d];
 			j = j - d;
 		}
 		(*memoria_)[j] = aux[0];
 	}
+}
+
+template<class T>
+void ordenacion_t<T>::traza(void){
+	mos_.set();
 }
