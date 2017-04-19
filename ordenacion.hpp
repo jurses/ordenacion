@@ -14,8 +14,11 @@ class ordenacion_t{
 		void deltasort(int);
 		bool traza_;
 	public:
+		ordenacion_t(){}
 		ordenacion_t(T&);
+		ordenacion_t(T*);
 		~ordenacion_t(){}
+		void cambioMem(T*);
 		void seleccion(void);
 		void sacudida(void);
 		void msort(void);                   // el gatillo
@@ -28,6 +31,18 @@ ordenacion_t<T>::ordenacion_t(T& memoria):
 	memoria_(&memoria)
 {
 	traza_ = false;
+}
+
+template<class T>
+ordenacion_t<T>::ordenacion_t(T* memoria):
+	memoria_(memoria)
+{
+	traza_ = false;
+}
+
+template<class T>
+void ordenacion_t<T>::cambioMem(T* memoria){
+	memoria_ = memoria;
 }
 
 template<class T>
@@ -82,12 +97,12 @@ template<class T>
 void ordenacion_t<T>::msort(T* sec, int ini, int fin){
 	if (ini < fin){
 		int cen = ini + (fin - ini)/2;
-		//std::cout << ini << ", " << cen << ", " << fin <<std::endl;
-		//std::cout << " < " << ini << ", " << cen << std::endl;
+		std::cout << ini << ", " << cen << ", " << fin <<std::endl;
+		std::cout << " < " << ini << ", " << cen << std::endl;
 		msort(sec, ini, cen);
-		//std::cout << " > " << cen+1 << ", " << fin << std::endl;
+		std::cout << " > " << cen+1 << ", " << fin << std::endl;
 		msort(sec, cen+1, fin);
-		//std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
+		std::cout << "Mezcla entre: " << ini << ", " << cen << ", " << fin << std::endl;
 		mezcla(sec, ini, cen, fin);
 	}
 }
@@ -112,6 +127,7 @@ void ordenacion_t<T>::mezcla(T* sec, int ini, int cen, int fin){
 	j = 0;
 	while (i < n1 && j < n2){
 		if (L[i] < R[j]){
+			std::cout << "Le insertamos "
 			(*sec)[k] = L[i];
 			i++;
 		}else{

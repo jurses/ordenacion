@@ -7,24 +7,40 @@
 
 typedef memoria_t<matricula_t> memMat;
 typedef memoria_t<int> memInt;
-typedef std::vector<matricula_t> vecMat;
-
-void asignacion(memInt& x){
-	x[0] = 44;
-	x[1] = 55;
-	x[2] = 12;
-	x[3] = 42;
-	x[4] = 94;
-	x[5] = 18;
-	x[6] = 06;
-	x[7] = 67;
-}
 
 int main(void){
 	srand(time(NULL));
-	
-	memMat A(10);
-	ordenacion_t<memMat> ord(A);
-	ord.msort();
-	A.write(std::cout);
+	int n, r;
+	std::cout << "Ingrese el número de elementos: ";
+	std::cin >> n;
+	std::cout << "Ingrese el número de pruebas: ";
+	std::cin >> r;
+
+	memMat* A;
+	memMat* B;
+	memMat* C;
+	memMat* D;
+	memMat* E;
+
+	ordenacion_t<memMat> orden;
+
+	for(int i=0; i<r; i++){
+		A = new memMat(n);
+		B = new memMat(n);
+		C = new memMat(n);
+		D = new memMat(n);
+		E = new memMat(n);
+		
+		orden.cambioMem(A);
+		orden.seleccion();
+		orden.sacudida();
+		orden.qsort();
+		orden.
+
+		delete A;
+		delete B;
+		delete C;
+		delete D;
+		delete E;
+	}
 }

@@ -8,6 +8,8 @@ std::ostream& memoria_t<matricula_t>::write(std::ostream& os){
 		<< std::endl;
 }
 
+
+
 template<>
 memoria_t<int>::memoria_t(int nElementos):
 	tam_(nElementos)

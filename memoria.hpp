@@ -22,6 +22,7 @@ class memoria_t{
 		void intercambiar(int, int);
 		T& operator [](unsigned int);
 		memoria_t<T>* seccionar(int, int);
+		int vecesComparado(void);
 		~memoria_t();
 };
 
@@ -73,5 +74,13 @@ memoria_t<T>* memoria_t<T>::seccionar(int a, int b){
 	return classic;
 }
 
+template<class T>
+int memoria_t<T>::vecesComparado(void){
+	int veces = 0;
+	for(int i=0; i<tam_; i++)
+		veces += datos_[i].mostrarCompar();
+		
+	return veces;
+}
 
 #endif // _MEMORIA_H_
