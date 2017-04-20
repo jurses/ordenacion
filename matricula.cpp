@@ -55,7 +55,7 @@ bool matricula_t::operator>(matricula_t& otra_matricula){
 	return (*this) > static_cast<unsigned long>(otra_matricula);
 }
 
-int matricula_t::mostrarCompar(void){
+int matricula_t::obtCompar(void){
 	return nCompar_;
 }
 

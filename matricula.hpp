@@ -10,7 +10,7 @@
 class matricula_t{
 	private:
 		int nCompar_;
-		std::string matr_cadena_;
+		std::string matr_cadena_; //3675BBM
 
 	public:
 		matricula_t();
@@ -24,7 +24,7 @@ class matricula_t{
 		bool operator <(matricula_t&);
 		bool operator >(matricula_t&);
 		operator std::string();
-		int mostrarCompar(void);
+		int obtCompar(void);
 		void reset(void);
 };
 

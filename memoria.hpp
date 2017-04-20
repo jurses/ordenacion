@@ -23,8 +23,7 @@ class memoria_t{
 		void intercambiar(int, int);
 		T& operator [](unsigned int);
 		memoria_t<T>* seccionar(int, int);
-		void aleatorio(void){}
-		int menor(bool);
+		void aleatorio(void);
 		void orden(bool x){ ordenado_ = x; }
 		int vecesComparado(void);
 		~memoria_t();
@@ -82,17 +81,24 @@ template<class T>
 int memoria_t<T>::vecesComparado(void){
 	int veces = 0;
 	for(int i=0; i<tam_; i++)
-		veces += datos_[i].mostrarCompar();
+		veces += datos_[i].obtCompar();
 		
 	return veces;
 }
 
 template<class T>
-int memoria_t<T>::menor(bool x){
-	if(x && ordenado_)
-		return datos_[0];
-	else if(!x && ordenado_)
-		return datos_[tam_-1];
+void memoria_t<T>::aleatorio(void){
+	for(int i=0; i<tam_*2; i++){
+		int x = rand()%tam_;
+		int y = rand()%tam_;
+		intercambiar(x, y); // no poner antes de declaracion de intercambiar
+							// no cumpliría la normativa n3376 14.7.3/6 
+	}
+
+	for(int i=0; i<tam_; i++)
+		datos_->reset();
+
+	ordenado_ = false;
 }
 
 #endif // _MEMORIA_H_
